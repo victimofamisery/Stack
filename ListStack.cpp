@@ -6,7 +6,7 @@ ListStack::ListStack() {
 
 ListStack::ListStack(const ValueType* rawArray, const size_t size) {
     _list = new std::list<ValueType>;
-	_list->insert(_list->begin(), rawArray, rawArray + size);
+    _list->insert(_list->begin(), rawArray, rawArray + size);
 }
 
 
