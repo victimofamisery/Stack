@@ -61,8 +61,8 @@ Stack::Stack(Stack& copyStack)
 Stack& Stack::operator=(Stack& copyStack)
 {
     if(&copyStack == this) {
-		return *this;
-	}
+        return *this;
+    }
     delete _pimpl;
     Stack tmp(copyStack);
     _pimpl = tmp._pimpl;
@@ -79,9 +79,9 @@ Stack::Stack(Stack&& moveStack) noexcept {
 }
 
 Stack& Stack::operator=(Stack&& moveStack) noexcept {
-	if(&moveStack == this) {
-		return *this;
-	}
+    if(&moveStack == this) {
+        return *this;
+    }
 	delete[] _pimpl;
     _pimpl = moveStack._pimpl;
     moveStack._pimpl = nullptr;
