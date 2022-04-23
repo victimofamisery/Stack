@@ -40,17 +40,12 @@ Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer
 Stack::Stack(Stack& copyStack)
     : Stack(copyStack._containerType)
 {
-    size_t tempSize = copyStack.size();
-    ValueType* tmpArray = new ValueType[tempSize];
-    for(auto i = 0; i < tempSize; i++) {
-        tmpArray[tempSize - 1 - i] = copyStack.top();
+    size_t tmpSize = copyStack.size();
+    ValueType* tmpArray = new ValueType[tmpSize];
+    for(auto i = 0; i < tmpSize; i++) {
+        tmpArray[tmpSize - 1 - i] = copyStack.top();
         copyStack.pop();
     }
-    Stack tmpStack(tmpArray, tempSize, copyStack._containerType);
-    for(auto i = 0; i < tempSize; i++) {
-        tmpArray[tempSize - 1 - i] = tmpStack.top();
-        tmpStack.pop();
-    }   
     for(auto i = 0; i < tempSize; i++) {
         copyStack.push(tmpArray[i]);
         push(tmpArray[i]);
