@@ -63,7 +63,7 @@ Stack& Stack::operator=(const Stack& copyStack)
     }
     delete _pimpl;
     Stack tmp(copyStack);
-	this = std::move(tmp);
+    *this = std::move(tmp);
     return *this;
 }
 
@@ -78,7 +78,7 @@ Stack& Stack::operator=(Stack&& moveStack) noexcept {
         return *this;
     }
 	delete[] _pimpl;
-    this = std::move(moveStack);
+    *this = std::move(moveStack);
     return *this;
 }
 
