@@ -37,21 +37,24 @@ Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer
     }
 }
 
-Stack::Stack(Stack& copyStack)
+Stack::Stack(const Stack& copyStack)
     : Stack(copyStack._containerType)
 {
-    size_t tmpSize = copyStack.size();
-    ValueType* tmpArray = new ValueType[tmpSize];
-    for(auto i = 0; i < tmpSize; i++) {
-        tmpArray[tmpSize - 1 - i] = copyStack.top();
-        copyStack.pop();
+    switch (container)
+    {
+    case StackContainer::List: {
+        _pimpl = static_cast<IStackImplementation*>(new ListStack(dynamic_cast<VectorStack *>(copyStack._pimpl)));
+        break;
     }
-    for(auto i = 0; i < tempSize; i++) {
-        copyStack.push(tmpArray[i]);
-        push(tmpArray[i]);
-    }   
-    delete[] tmpArray;
+    case StackContainer::Vector: {
+        _pimpl = static_cast<IStackImplementation*>(new VectorStack(dynamic_cast<VectorStack *>(copyStack._pimpl)));
+        break;
+    }
+    default:
+        throw std::runtime_error("Неизвестный тип контейнера");
+    }	 
 }
+
 
 Stack& Stack::operator=(Stack& copyStack)
 {
