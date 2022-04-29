@@ -43,11 +43,11 @@ Stack::Stack(const Stack& copyStack)
     switch (container)
     {
     case StackContainer::List: {
-        _pimpl = static_cast<IStackImplementation*>(new ListStack(dynamic_cast<VectorStack *>(copyStack._pimpl)));
+        _pimpl = static_cast<IStackImplementation*>(new ListStack(dynamic_cast<VectorStack*>(copyStack._pimpl)));
         break;
     }
     case StackContainer::Vector: {
-        _pimpl = static_cast<IStackImplementation*>(new VectorStack(dynamic_cast<VectorStack *>(copyStack._pimpl)));
+        _pimpl = static_cast<IStackImplementation*>(new VectorStack(dynamic_cast<VectorStack*>(copyStack._pimpl)));
         break;
     }
     default:
