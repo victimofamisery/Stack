@@ -20,5 +20,5 @@ public:
     // виртуальный деструктор
     ~VectorStack() override;
 private:
-    Vector* _vector;
+    Vector _vector;
 };
