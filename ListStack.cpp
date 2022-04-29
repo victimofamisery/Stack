@@ -5,7 +5,6 @@ ListStack::ListStack(const ValueType* rawArray, const size_t size) {
     _list.insert(_list.begin(), rawArray, rawArray + size);
 }
 
-
 void ListStack::push(const ValueType& value) {
     _list.push_back(value);
 }
@@ -25,4 +24,3 @@ bool ListStack::isEmpty() const {
 size_t ListStack::size() const {
     return _list.size();
 }
-
