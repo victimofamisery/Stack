@@ -77,7 +77,7 @@ Stack& Stack::operator=(Stack&& moveStack) noexcept {
     if(&moveStack == this) {
         return *this;
     }
-	delete[] _pimpl;
+	delete _pimpl;
     *this = std::move(moveStack);
     return *this;
 }
