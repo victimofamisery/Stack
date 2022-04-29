@@ -4,6 +4,7 @@
 #include "VectorStack.h"
 #include "StackImplementation.h"
 
+#include <iostream>
 #include <stdexcept>
 
 
