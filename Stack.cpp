@@ -63,15 +63,13 @@ Stack& Stack::operator=(const Stack& copyStack)
     }
     delete _pimpl;
     Stack tmp(copyStack);
-    _pimpl = tmp._pimpl;
-    tmp._pimpl = nullptr;
+    _pimpl = std::swap(tmp._pimpl);
     _containerType = tmp._containerType;
     return *this;
 }
 
 Stack::Stack(Stack&& moveStack) noexcept {
-    _pimpl = moveStack._pimpl;
-    moveStack._pimpl = nullptr;
+    _pimpl = std::swap(moveStack._pimpl);
     _containerType = moveStack._containerType;
     moveStack._containerType = StackContainer::Undefined;
 }
@@ -81,8 +79,7 @@ Stack& Stack::operator=(Stack&& moveStack) noexcept {
         return *this;
     }
 	delete[] _pimpl;
-    _pimpl = moveStack._pimpl;
-    moveStack._pimpl = nullptr;
+    _pimpl = std::swap(moveStack._pimpl);
     _containerType = moveStack._containerType;
     moveStack._containerType = StackContainer::Undefined;
     return *this;
