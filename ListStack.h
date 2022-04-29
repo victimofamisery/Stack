@@ -20,5 +20,5 @@ public:
     // виртуальный деструктор
     ~ListStack() override;
 private:
-    std::list<ValueType>* _list;
+    std::list<ValueType> _list;
 };
