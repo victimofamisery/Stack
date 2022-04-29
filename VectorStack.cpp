@@ -1,33 +1,26 @@
 #include "VectorStack.h"
 
-VectorStack::VectorStack() {
-    _vector = new Vector();
-}
 
-VectorStack::VectorStack(const ValueType* rawArray, const size_t size) {
-    _vector = new Vector(rawArray, size);
+VectorStack::VectorStack(const ValueType* rawArray, const size_t size) 
+:_vector(rawArray, size){
 }
 
 void VectorStack::push(const ValueType& value) {
-    _vector->pushBack(value);
+    _vector.pushBack(value);
 }
 
 void VectorStack::pop() {
-    _vector->popBack();
+    _vector.popBack();
 }
 
 const ValueType& VectorStack::top() const {
-    return  (*_vector)[size() - 1];
+    return  _vector[size() - 1];
 }
 
 bool VectorStack::isEmpty() const {    
-    return _vector->size() == 0;
+    return _vector.size() == 0;
 }
 
 size_t VectorStack::size() const {
-    return _vector->size();
-}
-
-VectorStack::~VectorStack() {
-    delete _vector;
+    return _vector.size();
 }

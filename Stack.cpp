@@ -7,11 +7,11 @@ Stack::Stack(StackContainer container)
     switch (container)
     {
     case StackContainer::List: {
-        _pimpl = static_cast<IStackImplementation*>(new ListStack());    // конкретизируйте под ваши конструкторы, если надо
+        _pimpl = static_cast<IStackImplementation*>(new ListStack());
         break;
     }
     case StackContainer::Vector: {
-        _pimpl = static_cast<IStackImplementation*>(new VectorStack());    // конкретизируйте под ваши конструкторы, если надо
+        _pimpl = static_cast<IStackImplementation*>(new VectorStack()); 
         break;
     }
     default:
@@ -25,11 +25,11 @@ Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer
     switch (container)
     {
     case StackContainer::List: {
-        _pimpl = static_cast<IStackImplementation*>(new ListStack(valueArray, arraySize));    // конкретизируйте под ваши конструкторы, если надо
+        _pimpl = static_cast<IStackImplementation*>(new ListStack(valueArray, arraySize));  
         break;
     }
     case StackContainer::Vector: {
-        _pimpl = static_cast<IStackImplementation*>(new VectorStack(valueArray, arraySize));    // конкретизируйте под ваши конструкторы, если надо
+        _pimpl = static_cast<IStackImplementation*>(new VectorStack(valueArray, arraySize)); 
         break;
     }
     default:
@@ -37,32 +37,30 @@ Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer
     }
 }
 
-Stack::Stack(Stack& copyStack)
+Stack::Stack(const Stack& copyStack)
     : Stack(copyStack._containerType)
 {
-    size_t tempSize = copyStack.size();
-    ValueType* tmpArray = new ValueType[tempSize];
-    for(auto i = 0; i < tempSize; i++) {
-        tmpArray[tempSize - 1 - i] = copyStack.top();
-        copyStack.pop();
+    switch (copyStack._containerType)
+    {
+    case StackContainer::List: {
+        _pimpl = static_cast<IStackImplementation*>(new ListStack(*dynamic_cast<ListStack*>(copyStack._pimpl)));
+        break;
     }
-    Stack tmpStack(tmpArray, tempSize, copyStack._containerType);
-    for(auto i = 0; i < tempSize; i++) {
-        tmpArray[tempSize - 1 - i] = tmpStack.top();
-        tmpStack.pop();
-    }   
-    for(auto i = 0; i < tempSize; i++) {
-        copyStack.push(tmpArray[i]);
-        push(tmpArray[i]);
-    }   
-    delete[] tmpArray;
+    case StackContainer::Vector: {
+        _pimpl = static_cast<IStackImplementation*>(new VectorStack(*dynamic_cast<VectorStack*>(copyStack._pimpl)));
+        break;
+    }
+    default:
+        throw std::runtime_error("Неизвестный тип контейнера");
+    }	 
 }
 
-Stack& Stack::operator=(Stack& copyStack)
+
+Stack& Stack::operator=(const Stack& copyStack)
 {
     if(&copyStack == this) {
-		return *this;
-	}
+        return *this;
+    }
     delete _pimpl;
     Stack tmp(copyStack);
     _pimpl = tmp._pimpl;
@@ -79,9 +77,9 @@ Stack::Stack(Stack&& moveStack) noexcept {
 }
 
 Stack& Stack::operator=(Stack&& moveStack) noexcept {
-	if(&moveStack == this) {
-		return *this;
-	}
+    if(&moveStack == this) {
+        return *this;
+    }
 	delete[] _pimpl;
     _pimpl = moveStack._pimpl;
     moveStack._pimpl = nullptr;
@@ -92,12 +90,11 @@ Stack& Stack::operator=(Stack&& moveStack) noexcept {
 
 Stack::~Stack()
 {
-    delete _pimpl;        // композиция!
+    delete _pimpl;
 }
 
 void Stack::push(const ValueType& value)
 {
-    // можно, т.к. push определен в интерфейсе
     _pimpl->push(value);
 }
 
