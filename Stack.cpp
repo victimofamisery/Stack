@@ -68,7 +68,8 @@ Stack& Stack::operator=(const Stack& copyStack)
 }
 
 Stack::Stack(Stack&& moveStack) noexcept {
-    _pimpl = std::move(moveStack._pimpl);
+    _pimpl = moveStack._pimpl;
+    moveStack._pimpl = nullptr;
     _containerType = moveStack._containerType;
     moveStack._containerType = StackContainer::Undefined;
 }
@@ -77,8 +78,11 @@ Stack& Stack::operator=(Stack&& moveStack) noexcept {
     if(&moveStack == this) {
         return *this;
     }
-	delete _pimpl;
-    *this = std::move(moveStack);
+    delete _pimpl;
+    _pimpl = moveStack._pimpl;
+    moveStack._pimpl = nullptr;
+    _containerType = moveStack._containerType;
+    moveStack._containerType = StackContainer::Undefined;
     return *this;
 }
 
