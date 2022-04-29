@@ -63,12 +63,12 @@ Stack& Stack::operator=(const Stack& copyStack)
     }
     delete _pimpl;
     Stack tmp(copyStack);
-	this = std::swap(tmp);
+	this = std::move(tmp);
     return *this;
 }
 
 Stack::Stack(Stack&& moveStack) noexcept {
-    _pimpl = std::swap(moveStack._pimpl);
+    _pimpl = std::move(moveStack._pimpl);
     _containerType = moveStack._containerType;
     moveStack._containerType = StackContainer::Undefined;
 }
@@ -78,7 +78,7 @@ Stack& Stack::operator=(Stack&& moveStack) noexcept {
         return *this;
     }
 	delete[] _pimpl;
-    this = std::swap(moveStack);
+    this = std::move(moveStack);
     return *this;
 }
 
